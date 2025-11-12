@@ -1,5 +1,3 @@
-/* fresh teal-magenta UI, clean layout */
-
 :host {
   display: block;
   min-height: 100vh;
@@ -7,6 +5,13 @@
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   padding: 2.5rem;
   box-sizing: border-box;
+}
+
+/* ensure base sizing */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 .wrap {
@@ -19,7 +24,9 @@
   border-radius: 14px;
   padding: 1.6rem;
   box-shadow: 0 10px 30px rgba(30, 40, 60, 0.08);
-  overflow: hidden;
+  overflow: visible; /* allow page-level scrolling instead of internal scrollbars */
+  display: flex;
+  flex-direction: column;
 }
 
 /* header */
@@ -40,6 +47,7 @@
   }
 }
 
+/* user-info and form rows */
 .user-info {
   display: flex;
   gap: 0.8rem;
@@ -142,6 +150,7 @@
   display: flex;
   gap: 0.6rem;
   align-items: center;
+  width: 100%;
 }
 
 input[type='password'],
@@ -257,6 +266,7 @@ input[type='text'] {
   word-break: break-all;
   font-size: 1.03rem;
   border: 1px solid #e8f3f4;
+  max-width: 100%;
 }
 
 .suggestion-actions {
@@ -301,4 +311,123 @@ input[type='text'] {
   margin-top: 0.7rem;
   color: #6b7280;
   font-size: 0.9rem;
+}
+
+/* Responsive rules for mobile devices */
+@media (max-width: 720px) {
+  :host {
+    padding: 1rem;
+  }
+
+  .wrap {
+    padding: 0 6px;
+  }
+
+  .card {
+    padding: 1rem;
+    border-radius: 12px;
+    /* Allow the card to expand naturally; page-level scrolling will handle overflow */
+    max-height: none;
+  }
+
+  /* Ensure the name/email area doesn't produce internal scrollbars */
+  .user-info {
+    flex-direction: column;
+    align-items: stretch;
+    overflow: visible;
+  }
+
+  .field {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .checkboxes {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .length-control {
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .length-inputs {
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  input[type='number'] {
+    width: 100px;
+  }
+
+  input[type='range'] {
+    width: 100%;
+  }
+
+  .password-row {
+    align-items: stretch;
+  }
+
+  input[type='password'],
+  input[type='text'] {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .input-wrap {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .icon-btn {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .primary,
+  .secondary {
+    width: 100%;
+  }
+
+  .suggestion-body {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* keep horizontal overflow hidden for suggestion unless content truly requires it */
+  .suggestion {
+    overflow-x: visible;
+  }
+}
+
+/* small tweaks for very small screens */
+@media (max-width: 380px) {
+  .header h1 {
+    font-size: 1.25rem;
+  }
+
+  input[type='password'],
+  input[type='text'] {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+
+  .icon-btn {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
 }
