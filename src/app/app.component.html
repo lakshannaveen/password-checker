@@ -1,19 +1,86 @@
-<div class="container">
-  <h1>Password Strength Checker</h1>
+<div class="wrap">
+  <main class="card">
+    <header class="header">
+      <h1>Password Studio</h1>
+      <p class="subtitle">Generate, preview and pick secure passwords — tailored to you.</p>
+    </header>
 
-  <input
-    type="password"
-    [(ngModel)]="password"
-    (input)="checkStrength()"
-    placeholder="Enter your password"
-  />
+    <section class="form-row user-info">
+      <label class="field">
+        <span class="label">Name (optional)</span>
+        <input type="text" [(ngModel)]="userName" placeholder="e.g. Alex Morgan" />
+      </label>
 
-  <p [style.color]="strengthColor">{{ strengthMessage }}</p>
+      <label class="field">
+        <span class="label">Email (optional)</span>
+        <input type="email" [(ngModel)]="userEmail" placeholder="e.g. alex@example.com" />
+      </label>
+    </section>
 
-  <button (click)="generateSuggestion()">Generate Password Suggestion</button>
+    <section class="controls">
+      <div class="checkboxes">
+        <label><input type="checkbox" [(ngModel)]="includeUpper" /> Uppercase</label>
+        <label><input type="checkbox" [(ngModel)]="includeLower" /> Lowercase</label>
+        <label><input type="checkbox" [(ngModel)]="includeNumbers" /> Numbers</label>
+        <label><input type="checkbox" [(ngModel)]="includeSymbols" /> Symbols</label>
+      </div>
 
-  <div *ngIf="suggestedPassword">
-    <h3>Suggested Password:</h3>
-    <p class="suggestion">{{ suggestedPassword }}</p>
-  </div>
+      <div class="length-control">
+        <label class="label">Length</label>
+        <div class="length-inputs">
+          <input type="number" min="6" max="64" [(ngModel)]="length" />
+          <input type="range" min="6" max="64" [(ngModel)]="length" />
+        </div>
+      </div>
+    </section>
+
+    <section class="password-row">
+      <div class="input-wrap">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          [(ngModel)]="password"
+          (input)="checkStrength()"
+          [placeholder]="passwordPlaceholder"
+          aria-label="Password input"
+        />
+        <button class="icon-btn" (click)="toggleShowPassword()" title="Toggle visibility">
+          {{ showPassword ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+
+      <div class="strength" *ngIf="strengthMessage">
+        <span class="dot" [style.background]="strengthColor"></span>
+        <span class="msg" [style.color]="strengthColor">{{ strengthMessage }}</span>
+      </div>
+    </section>
+
+    <section class="actions">
+      <button class="primary" (click)="generateSuggestion()">Generate Suggestion</button>
+      <button class="secondary" (click)="generateSuggestion()">Regenerate</button>
+    </section>
+
+    <section class="suggestion" *ngIf="suggestedPassword">
+      <div class="suggestion-head">
+        <h3>Suggested Password</h3>
+        <small class="meta">Length: {{ suggestedPassword.length }}</small>
+      </div>
+
+      <div class="suggestion-body">
+        <code class="pwd">{{ suggestedPassword }}</code>
+
+        <div class="suggestion-actions">
+          <button class="copy" (click)="copySuggestion()">Copy</button>
+          <button class="use" (click)="useSuggestion()">Use suggestion</button>
+          <button class="dismiss" (click)="suggestedPassword = ''">Dismiss</button>
+        </div>
+      </div>
+
+      <div class="copy-status" *ngIf="copyStatus">{{ copyStatus }}</div>
+
+      <p class="hint">
+        This suggestion tries to include your selected character types. Small, short pieces of your
+        name/email may be used to help you remember the password — full personal info is never inserted.
+      </p>
+    </section>
+  </main>
 </div>
