@@ -14,7 +14,7 @@
   button {
     margin-top: 20px;
     padding: 10px 20px;
-    background: linear-gradient(90deg, #6a5acd, #8a2be2);
+    background-color: #6a5acd;
     color: white;
     border: none;
     border-radius: 8px;
@@ -22,7 +22,7 @@
   }
 
   button:hover {
-    opacity: 0.9;
+    background-color: #5a4ac0;
   }
 
   .suggestion {
